@@ -1,2 +1,5 @@
-package org.bd.model;public class Show {
+package org.bd.model;
+
+public class Movie {
+
 }
