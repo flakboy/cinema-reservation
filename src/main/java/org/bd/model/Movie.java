@@ -3,20 +3,18 @@ package org.bd.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Show {
+public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int ShowId;
+    private int movieId;
 
     private String title;
 
     private String description;
 
-    private int length;
+    public Movie() {}
 
-    public Show() {}
-
-    public Show(String name, String description) {
+    public Movie(String name, String description) {
         this.title = name;
         this.description = description;
     }
@@ -37,5 +35,7 @@ public class Show {
         this.description = description;
     }
 
-
+    public int getMovieId() {
+        return movieId;
+    }
 }

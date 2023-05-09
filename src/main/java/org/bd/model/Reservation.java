@@ -1,2 +1,4 @@
-package org.bd.model;public class Reservation {
+package org.bd.model;
+
+public class Reservation {
 }
