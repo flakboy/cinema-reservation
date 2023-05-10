@@ -1,5 +1,53 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-    background: rgb(255, 247, 161);
+    margin: 0;
+    font-family: "Calibri", sans-serif;
+    background: #f0f0f0;
     color: black;
 }
 
+.header {
+    background-color: #0044aa;
+    height: 60px;
+    color: white;
+}
+
+
+.reservation-form {
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.seat__cell {
+    position: relative;
+    border: 1px solid black;
+    height: 40px;
+    width: 40px;
+}
+
+.seat__checkbox {
+    display: none;
+}
+
+.seat__label {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.seat__checkbox:checked + .seat__label {
+    background: green;
+}
+
+.seat__checkbox:disabled + .seat__label {
+    background: #888;
+}

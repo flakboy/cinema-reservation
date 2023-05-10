@@ -42,32 +42,12 @@ public class Main {
     public static void main(String[] args) {
         HttpServer server;
         try {
-//            Movie mov1 = new Movie(
-//                    "Gwiezdne wojny: Część II Atak klonów",
-//                    "Demokratyczne rządy Republiki są zagrożone przez podstępnego hrabiego Dooku.");
-//
-//            Movie mov2 = new Movie(
-//                    "Shrek 2",
-//                    " Shrek i Fiona postanawiają odwiedzić rodziców księżniczki," +
-//                            " którzy nie wiedzą jednak, że poślubiła ona ogra, a sama zmieniła się w ogrzycę.");
-
-//            Session session1 = getSession();
-//            Transaction tx = session1.beginTransaction();
-//            session1.persist(mov1);
-//            session1.persist(mov2);
-//
-//            tx.commit();
-//            session1.close();
-
-
             server = HttpServer.create(new InetSocketAddress(8080), 0);
             System.out.println("Nasłuchiwanie na porcie 8080");
             server.createContext("/", new GetFileHandler("src/main/resources/index.html", "text/html"));
             server.createContext("/style.css", new GetFileHandler("src/main/resources/style.css", "text/css"));
             server.createContext("/shows", (HttpExchange exchange) -> {
                 final Session session = getSession();
-
-
                 System.out.println(exchange.getRequestURI().getQuery());
 
 
