@@ -4,8 +4,20 @@
 * Mateusz Bywalec
 
 ## Temat projektu
-Aplikacja webowa pozwalająca na przeglądanie repertuaru w kinie oraz rezerwacji biletów na seanse.
+Aplikacja webowa kina 
 
-##Technologie
-* Java
+## Technologie
+** Frontend: **
+* HTML + CSS + JavaScript
+
+** Backend: **
+* Java (Hibernate)
 * PostgreSQL
+
+## Funkcjonalności projektu
+Projekt pozwala na
+* Przeglądanie repertuaru w kinie
+* Rezerwację miejsc na seanse w kinie.
+
+## Schemat bazy danych
+(miejsce na schemat)
