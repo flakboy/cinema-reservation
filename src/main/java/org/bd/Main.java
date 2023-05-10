@@ -1,6 +1,7 @@
 package org.bd;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,15 +40,36 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
         HttpServer server;
         try {
+//            Movie mov1 = new Movie(
+//                    "Gwiezdne wojny: Część II Atak klonów",
+//                    "Demokratyczne rządy Republiki są zagrożone przez podstępnego hrabiego Dooku.");
+//
+//            Movie mov2 = new Movie(
+//                    "Shrek 2",
+//                    " Shrek i Fiona postanawiają odwiedzić rodziców księżniczki," +
+//                            " którzy nie wiedzą jednak, że poślubiła ona ogra, a sama zmieniła się w ogrzycę.");
+
+//            Session session1 = getSession();
+//            Transaction tx = session1.beginTransaction();
+//            session1.persist(mov1);
+//            session1.persist(mov2);
+//
+//            tx.commit();
+//            session1.close();
+
+
             server = HttpServer.create(new InetSocketAddress(8080), 0);
             System.out.println("Nasłuchiwanie na porcie 8080");
             server.createContext("/", new GetFileHandler("src/main/resources/index.html", "text/html"));
             server.createContext("/style.css", new GetFileHandler("src/main/resources/style.css", "text/css"));
             server.createContext("/shows", (HttpExchange exchange) -> {
                 final Session session = getSession();
+
+
+                System.out.println(exchange.getRequestURI().getQuery());
+
 
                 ObjectMapper om = new ObjectMapper();
                 om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -69,8 +91,10 @@ public class Main {
                 exchange.sendResponseHeaders(200, data.length());
 
                 exchange.getResponseBody().write(data.getBytes());
+
             });
-            server.createContext("/script.js", new GetFileHandler("src/main/resources/script.js", "text/javascript"));
+            server.createContext("/reserve", new GetFileHandler("src/main/resources/reserve.html", "text/html"));
+            server.createContext("/reservation.js", new GetFileHandler("src/main/resources/reservation.js", "text/javascript"));
             server.createContext("/submit_reservation", new PostHandler(PostAction.SAVE_RESERVATION, sessionFactory));
             server.setExecutor(null); // creates a default executor
             server.start();

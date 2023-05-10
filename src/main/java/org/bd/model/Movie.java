@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 @Entity
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int movieId;
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
+    @SequenceGenerator(name = "movie_seq", sequenceName = "movie_seq")
+    private Long movieId;
 
     private String title;
 
@@ -35,7 +37,7 @@ public class Movie {
         this.description = description;
     }
 
-    public int getMovieId() {
+    public Long getMovieId() {
         return movieId;
     }
 }
