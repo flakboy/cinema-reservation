@@ -18,11 +18,14 @@ public class Movie {
 
     private String description;
 
+    private int duration;
+
     public Movie() {}
 
-    public Movie(String name, String description) {
+    public Movie(String name, String description, int duration) {
         this.title = name;
         this.description = description;
+        this.duration = duration;
     }
 
     public String getTitle() {

@@ -23,9 +23,11 @@ public class Show {
     @Column
     private LocalTime time;
 
+
+
     //TODO:
 //    ScreeningRoom room;
-
+    @JoinColumn(name = "movieId")
     @ManyToOne(cascade = CascadeType.PERSIST)
     Movie movie;
 

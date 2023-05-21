@@ -17,8 +17,14 @@
 
     <h1> Najbliższe seanse </h1>
     
-    <div> [Tu pojawi się lista seansów]</div>
-    <!-- <script src="script.js">
-    </script> -->
+    <div id="placeholder-list"></div>
+    <script>
+        let target = document.getElementById("placeholder-list");
+        (async () => {
+            let res = await fetch("/shows?startDate=2023-01-01&endDate=2023-12-30");
+            let data = await res.json();
+            target.innerText = JSON.stringify(data, null, 2);
+        })()
+    </script>
 </body>
 </html>

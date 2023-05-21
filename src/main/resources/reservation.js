@@ -27,9 +27,5 @@ for (let i = 0; i < 5; i++) {
     seats.appendChild(row);
 }
 
-(async () => {
-    let res = await fetch("/shows?startDate=2023-01-01&endDate=2023-12-30");
-    let data = await res.json();
-    console.log(data);
-})()
+
 
