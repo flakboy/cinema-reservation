@@ -21,3 +21,9 @@ Projekt pozwala na
 
 ## Schemat bazy danych
 (miejsce na schemat)
+
+# Endpointy
+* /shows
+  * Służy do pobrania listy seansów w danym przedziale czasowym.
+  * Do określania przedziału czasu służą parametry startDate oraz endDate
+    
