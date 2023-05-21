@@ -2,9 +2,9 @@
     <session-factory>
 
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://path:5432/login</property>
-        <property name="hibernate.connection.username">username</property>
-        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.connection.url">aaaa</property>
+        <property name="hibernate.connection.username">bbb</property>
+        <property name="hibernate.connection.password">ccc</property>
 
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
