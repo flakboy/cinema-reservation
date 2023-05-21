@@ -18,11 +18,12 @@ public class DatabaseHelper {
 
     public List<Show> getShowsInRange(LocalDate beginDate, LocalDate endDate) {
         Session session = sessionFactory.openSession();
-        Query<Show> query = session.createQuery("from Show where date > :start_date and date < :end_date", Show.class);
+        List<Show> result;
+        Query<Show> query = session.createQuery("from Show where date >= :start_date and date <= :end_date", Show.class);
         query.setParameter("start_date", beginDate);
         query.setParameter("end_date", endDate);
 
-        List<Show> result = query.getResultList();
+        result = query.getResultList();
 
         session.close();
         return result;

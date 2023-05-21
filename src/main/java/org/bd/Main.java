@@ -41,8 +41,10 @@ public class Main {
                 final Session session = getSession();
                 try {
                     String queryString = exchange.getRequestURI().getQuery();
-                    System.out.println("Query string:");
-                    System.out.println(queryString);
+
+                    if (queryString == null) {
+                        throw new IllegalArgumentException();
+                    }
                     String[] params = queryString.split("&");
 
                     Map<String, String> queryMap = new HashMap<>();
@@ -61,17 +63,16 @@ public class Main {
                     ObjectMapper om = new ObjectMapper();
                     om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-                    List<Show> result;
-                    Query<Show> query = session.createQuery("from Show where date < :endDate", Show.class);
-                    query.setParameter("endDate", LocalDate.parse(queryMap.get("endDate")));
-                    System.out.println(queryMap.get("endDate"));
-
-                    result = query.getResultList();
+                    List<Show> shows = (new DatabaseHelper()).getShowsInRange(
+                            LocalDate.parse(queryMap.get("startDate")),
+                            LocalDate.parse(queryMap.get("endDate"))
+                    );
                     HashMap<String, Object> map = new HashMap<>();
-                    map.put("shows", result);
+                    map.put("shows", shows);
                     String data = om.valueToTree(map).toString();
                     exchange.getResponseHeaders().set("Content-type", "application/json");
 
+                    
                     //TODO: wysyłać dane po kawałku, a nie wszystko naraz
                     byte[] bytes = data.getBytes();
                     exchange.sendResponseHeaders(200, bytes.length);
@@ -79,7 +80,6 @@ public class Main {
                 } catch (NullPointerException | IllegalArgumentException exception) {
                     HashMap<String, String> data = new HashMap<>();
                     data.put("error", "Invalid query parameters");
-                    System.out.println("niewlasciwe parametry");
 
                     ObjectMapper om = new ObjectMapper();
                     String responseBody = om.valueToTree(data).toString();
