@@ -1,14 +1,18 @@
 package org.bd.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 @Entity
 public class Movie {
-    @Id
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
-    @SequenceGenerator(name = "movie_seq", sequenceName = "movie_seq")
-    private Long movieId;
+    //Identity czy Sequence?
+    //https://stackoverflow.com/questions/40497768/jpa-and-postgresql-with-generationtype-identity
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int movieId;
 
     private String title;
 
@@ -37,7 +41,7 @@ public class Movie {
         this.description = description;
     }
 
-    public Long getMovieId() {
+    public int getMovieId() {
         return movieId;
     }
 }

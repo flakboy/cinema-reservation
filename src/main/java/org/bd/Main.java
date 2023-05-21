@@ -1,9 +1,10 @@
 package org.bd;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,27 +14,16 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import org.bd.model.Movie;
+import org.bd.model.Show;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 public class Main {
 
-    private static final SessionFactory sessionFactory;
-
-
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
-
-            sessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+    private static final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     public static Session getSession() throws HibernateException {
         return sessionFactory.openSession();
@@ -54,7 +44,7 @@ public class Main {
                 ObjectMapper om = new ObjectMapper();
                 om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-                List<Movie> result = new ArrayList<>();
+                List<Movie> result;
                 try {
                     String hql = "from org.bd.model.Movie";
                     Query<Movie> query = session.createQuery(hql, Movie.class);
