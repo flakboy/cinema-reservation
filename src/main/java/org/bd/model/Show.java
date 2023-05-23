@@ -4,6 +4,11 @@ package org.bd.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.*;
 
 //import java.sql.Date;
@@ -15,11 +20,11 @@ public class Show {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int showId;
 
-
     //potrzebna przy mapowaniu dat (?)
     @Column
     private LocalDate date;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Column
     private LocalTime time;
 
@@ -51,5 +56,26 @@ public class Show {
 
     public Movie setMovie(Movie movie) {
         return movie;
+    }
+
+    @Override
+    public String toString() {
+        return time + " - " + date;
+    }
+
+
+    public LocalDate getDate() {
+        return this.date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return this.time;
+    }
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 }

@@ -7,11 +7,13 @@
 </head>
 <body>
     <header class="header">
-        <div>
-            <h1 style="margin: 0;">
-                Kino
-            </h1>
-        </div>
+        <a href="/">
+            <div>
+                <h1 style="margin: 0;">
+                    Kino
+                </h1>
+            </div>
+        </a>
     </header>
 
 
@@ -24,6 +26,14 @@
             let res = await fetch("/shows?startDate=2023-01-01&endDate=2023-12-30");
             let data = await res.json();
             target.innerText = JSON.stringify(data, null, 2);
+            let shows = data.shows;
+            for (let show of shows) {
+                let id = show.showId;
+                console.log(show)
+                let title = show.movie.title
+                let desc = show.movie.description
+                console.log(id, title, desc)
+            }
         })()
     </script>
 </body>
