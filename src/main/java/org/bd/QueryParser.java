@@ -1,4 +1,4 @@
-package org.bd.model;
+package org.bd;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -18,21 +18,55 @@
 
 
     <h1> Najbliższe seanse </h1>
+    <ul id="upcoming-shows" class="upcoming__list">
+
+    </ul>
     
-    <div id="placeholder-list"></div>
+
     <script>
+        function createShowCard(title, desc, date, time) {
+            let wrapper = document.createElement("li");
+            wrapper.classList.add("upcoming__item");
+
+            let dateDisplay = document.createElement("span");
+            let timeDisplay = document.createElement("span");
+            let titleDisplay = document.createElement("h2");
+            let descDisplay = document.createElement("p");
+
+            let reserveLink = document.createElement("a")
+            let reserveButton = document.createElement("button");
+            reserveButton.textContent = "Zarezerwuj miejsca"
+            reserveLink.appendChild(reserveButton);
+
+
+            titleDisplay.textContent = title;
+            descDisplay.textContent = desc;
+            timeDisplay.textContent = time;
+            dateDisplay.textContent = date;
+            
+            wrapper.appendChild(dateDisplay);
+            wrapper.appendChild(timeDisplay);
+            wrapper.appendChild(titleDisplay);
+            wrapper.appendChild(descDisplay);
+            wrapper.appendChild(reserveLink);
+
+            document.getElementById("upcoming-shows").appendChild(wrapper);
+        }
+
         let target = document.getElementById("placeholder-list");
         (async () => {
             let res = await fetch("/shows?startDate=2023-01-01&endDate=2023-12-30");
             let data = await res.json();
-            target.innerText = JSON.stringify(data, null, 2);
+            // target.innerText = JSON.stringify(data, null, 2);
             let shows = data.shows;
             for (let show of shows) {
+                let [year, month, day] = show.date;
                 let id = show.showId;
-                console.log(show)
                 let title = show.movie.title
                 let desc = show.movie.description
-                console.log(id, title, desc)
+
+                createShowCard(title, desc, `${day}/${month}/${year}`, show.time);
+                // console.log(id, title, desc)
             }
         })()
     </script>

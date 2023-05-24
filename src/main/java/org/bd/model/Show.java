@@ -30,19 +30,26 @@ public class Show {
 
 
 
-    //TODO:
-//    ScreeningRoom room;
+
     @JoinColumn(name = "movieId")
     @ManyToOne(cascade = CascadeType.PERSIST)
     Movie movie;
 
+    @JoinColumn(name = "movieRoomId")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    MovieRoom movieRoom;
+
+    @Column(length = 50)
+    private String type;
 
     public Show() {}
 
-    public Show(Movie movie, LocalDate date, LocalTime time) {
+    public Show(Movie movie, LocalDate date, LocalTime time, MovieRoom movieRoom, String type) {
         this.movie = movie;
         this.date = date;
         this.time = time;
+        this.movieRoom = movieRoom;
+        this.type = type;
     }
 
 
@@ -78,4 +85,10 @@ public class Show {
     public void setTime(LocalTime time) {
         this.time = time;
     }
+
+    public MovieRoom getMovieRoom() {return this.movieRoom;}
+    public void setMovieRoom(MovieRoom movieRoom) {this.movieRoom = movieRoom;}
+
+    public String getType() {return this.type;}
+    public void setType(String type) {this.type = type;}
 }

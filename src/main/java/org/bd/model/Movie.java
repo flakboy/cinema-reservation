@@ -36,6 +36,14 @@ public class Movie {
         this.title = name;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     public String getDescription() {
         return description;
     }

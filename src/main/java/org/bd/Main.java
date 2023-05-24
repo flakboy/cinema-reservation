@@ -16,7 +16,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
-import org.bd.model.QueryParser;
 import org.bd.model.Show;
 
 import org.hibernate.HibernateException;
@@ -45,15 +44,15 @@ public class Main {
                 om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 Session session = getSession();
 
+                //przewidujemy że odpowiedź na to żądanie zawsze będzie JSON-em
+                exchange.getResponseHeaders().set("Content-type", "application/json");
                 try {
                     String queryString = exchange.getRequestURI().getQuery();
-
                     if (queryString == null) {
                         throw new IllegalArgumentException();
                     }
 
                     Map<String, String> queryMap = new QueryParser().parse(queryString);
-
                     if (!queryMap.containsKey("startDate") || !queryMap.containsKey("endDate")) {
                         throw new IllegalArgumentException();
                     }
@@ -66,13 +65,12 @@ public class Main {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("shows", shows);
                     String data = om.valueToTree(map).toString();
-                    exchange.getResponseHeaders().set("Content-type", "application/json");
 
 
-                    //TODO: wysyłać dane po kawałku, a nie wszystko naraz
                     byte[] bytes = data.getBytes();
                     exchange.sendResponseHeaders(200, bytes.length);
                     exchange.getResponseBody().write(bytes);
+
                 } catch (IllegalArgumentException exception) {
                     HashMap<String, String> data = new HashMap<>();
                     data.put("error", "Invalid query parameters");
@@ -83,6 +81,8 @@ public class Main {
 
                     exception.printStackTrace();
                 } catch (NullPointerException exception) {
+                    //kod bardzo podobny do powyższego, można by to przenieść do jakiejś nowej klasy która
+                    //wysyłałaby generic odpowiedzi
                     HashMap<String, String> data = new HashMap<>();
                     data.put("error", "Internal server error");
 
@@ -92,8 +92,7 @@ public class Main {
 
                     exception.printStackTrace();
                 } finally {
-                    //bez tej linijki serwer obsługuje jedynie co drugie połączenie
-                    exchange.close();
+                    exchange.close(); //bez tej linijki serwer obsługuje jedynie co drugie połączenie
                     session.close();
                 }
             });
