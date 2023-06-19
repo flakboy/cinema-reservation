@@ -31,8 +31,9 @@ body {
 Najbliższe seanse
 */
 
-.shows {
-    width: 80%;
+.content {
+    width: 100%;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -57,10 +58,11 @@ Najbliższe seanse
     justify-content: flex-start;
     height: 60px;
     padding: 0;
+    overflow: auto;
 }
 
 .days__elem {
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     padding: 8px 12px;
     display: inline-flex;
@@ -74,6 +76,19 @@ Najbliższe seanse
 /*
  Rezerwacje
  */
+
+.screen {
+    box-shadow: 0 5px 5px 5px rgba(0,0,0,0.5);
+    background: silver;
+    width: 600px;
+    height: 30px;
+    margin-left: 30px;
+}
+
+.seats__label {
+    text-align: center;
+    width: 30px;
+}
 
 .reservation-form {
     width: 800px;

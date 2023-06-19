@@ -14,7 +14,13 @@
 
     for (let i = 0; i < room.rows; i++) {
         let row = document.createElement("tr");
+        let labelY = document.createElement("td");
+        labelY.classList.add("seats__label");
+        labelY.textContent = i + 1;
+        row.appendChild(labelY)
+
         for (let j = 0; j < room.seats; j++) {
+
             let cell = document.createElement("td");
             cell.classList.add("seat__cell")
             
@@ -38,7 +44,18 @@
             row.appendChild(cell);
         }
         seatsDisplay.appendChild(row);
+
     }
+    let rowX = document.createElement("tr");
+    rowX.appendChild(document.createElement("td"));
+    for (let i = 0; i < room.seats; i++) {
+        let labelX = document.createElement("td");
+        labelX.classList.add("seats__label");
+        labelX.textContent = i + 1;
+        rowX.appendChild(labelX);
+        rowX.appendChild(labelX);
+    }
+    seatsDisplay.appendChild(rowX);
 
     let reservedSeats = [].concat.apply([], showData.data.reservations.map(item => item.details));
     for (let seat of reservedSeats) {

@@ -18,20 +18,14 @@
         </a>
     </header>
 
-    <div>
-        <h2> Złóż rezerwację </h2>
+    <div class="content">
+        <h1> Złóż rezerwację </h1>
         <form method="post" action="submit_reservation" class="reservation-form" id="reservation-form">
-            <h3> Zaznacz miejsca </h3>
+            <h2> Zaznacz miejsca </h2>
 
-            <div style="background: silver; width: 600px; height: 40px;"> Ekran </div>
+            <div class="screen"></div>
             <table id="seats" class="showroom-display">
             </table>
-
-            <!-- <label for="reservation-firstname"/> Imię </label>
-            <input name="firstname" id="reservation-firstname" required/>
-            
-            <label for="reservation-firstname"/> Nazwisko </label>
-            <input name="lastname" id="reservation-lastname" required/> -->
 
             <input name="userId" id="reservation-userid" style="display: none;" readonly required/>
             <input name="showId" id="reservation-showid" style="display: none;" readonly required/>
