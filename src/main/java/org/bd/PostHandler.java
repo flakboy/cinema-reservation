@@ -24,7 +24,6 @@ class PostHandler implements HttpHandler {
     }
 
     private void saveReservation(HttpExchange exchange) {
-        System.out.println("=============================================");
         StringBuilder sb = new StringBuilder();
         InputStream inputStream = exchange.getRequestBody();
         int i;

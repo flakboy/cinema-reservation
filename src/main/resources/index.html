@@ -53,8 +53,6 @@
             let wrapper = document.createElement("li");
             wrapper.classList.add("upcoming__item");
 
-            let dateDisplay = document.createElement("span");
-            let timeDisplay = document.createElement("span");
             let titleDisplay = document.createElement("h2");
             let descDisplay = document.createElement("p");
 
@@ -65,13 +63,13 @@
             reserveLink.appendChild(reserveButton);
 
 
+            
+            let datetimeDisplay = document.createElement("span");
+            datetimeDisplay.textContent = `${date} ${time.join(":")}`;
             titleDisplay.textContent = title;
             descDisplay.textContent = desc;
-            timeDisplay.textContent = time;
-            dateDisplay.textContent = date;
-            
-            wrapper.appendChild(dateDisplay);
-            wrapper.appendChild(timeDisplay);
+
+            wrapper.appendChild(datetimeDisplay);
             wrapper.appendChild(titleDisplay);
             wrapper.appendChild(descDisplay);
             wrapper.appendChild(reserveLink);
@@ -93,14 +91,14 @@
         function setComingDaysButtons() {
             let date = new Date();
             let buttons = document.getElementById("coming-days-list").children;
-            for (let i = 0; i < 7; i++) {
-                date.setDate((new Date()).getDate() + i);
+            for (let i = 1; i < 8; i++) {
+                date.setDate((new Date()).getDate() + (i - 1));
                 let dateLabel = document.createElement("span");
                 let dayLabel = document.createElement("span");
                 dateLabel.textContent = `${date.getDate()}.${addLeadingZeroes(date.getMonth() + 1, 2)}`
                 dayLabel.textContent = toDayOfWeek(date.getDay());
-                buttons[i + 1].appendChild(dateLabel);
-                buttons[i + 1].appendChild(dayLabel);
+                buttons[i].appendChild(dateLabel);
+                buttons[i].appendChild(dayLabel);
 
 
                 let dateString = date.toISOString().slice(0, 10);
@@ -121,13 +119,12 @@
             }
 
             for (let show of shows) {
-                // let dateString = show.date.map(item => addLeadingZeroes(item, 2)).join("-");
                 let [year, month, day] = show.date;
                 let id = show.showId;
                 let title = show.movie.title
                 let desc = show.movie.description
                 
-                createShowCard(show.showId, title, desc, `${day}/${month}/${year}`, show.time);
+                createShowCard(show.showId, title, desc, `${day}/${addLeadingZeroes(month, 2)}/${year}`, show.time);
             }
         }
 
@@ -139,17 +136,18 @@
 
         (async () => {
             let today = new Date();
-            // [day, month, year] = [today.getDate(), today.getMonth(), today.getFullYear()]
-
+            let rangeEnd = new Date();
+            rangeEnd.setDate(today.getDate() + 7);
+            
             setComingDaysButtons();
 
-            upcomingShows = await getShowsByDateRange("2023-01-01", "2023-12-30");
+            upcomingShows = await getShowsByDateRange(today.toISOString().slice(0, 10), rangeEnd.toISOString().slice(0, 10));
+                
+            document.getElementById("all-shows").addEventListener("click", () => {
+                renderShows(upcomingShows);
+            })
             renderShows(upcomingShows);
         })()
-
-        document.getElementById("all-shows").addEventListener("click", () => {
-            renderShows(upcomingShows);
-        })
     </script>
 </body>
 </html>

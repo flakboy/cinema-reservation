@@ -38,6 +38,8 @@ Najbliższe seanse
 
 .upcoming__list {
     list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .upcoming__item {
@@ -50,10 +52,11 @@ Najbliższe seanse
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    margin: 0 auto;
+    margin: 10px auto;
     align-items: center;
     justify-content: flex-start;
     height: 60px;
+    padding: 0;
 }
 
 .days__elem {
@@ -80,6 +83,9 @@ Najbliższe seanse
     align-items: center;
 }
 
+.showroom-display {
+    margin: 10px auto;
+}
 
 .seat__cell {
     position: relative;
