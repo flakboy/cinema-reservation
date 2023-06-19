@@ -17,10 +17,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import org.bd.model.Show;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.query.Query;
 
 public class Main {
@@ -68,6 +65,10 @@ public class Main {
                             LocalDate.parse(queryMap.get("endDate"))
                     );
 
+                    //wymagane, ponieważ domyślnie pole movie jest ładowane leniwie
+                    for (Show show: shows) {
+                        Hibernate.initialize(show.getMovie());
+                    }
 
 
                     HashMap<String, Object> map = new HashMap<>();

@@ -21,7 +21,7 @@ public class Reservation {
 
     @JsonIgnore
     @JoinColumn(name = "clientId")
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     Client client;
 
 
