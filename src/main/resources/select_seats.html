@@ -9,8 +9,8 @@
 </head>
 <body>
     <header class="header">
-        <a href="/">
-            <div>
+        <a href="/" style="text-decoration: none">
+            <div class="logo">
                 <h1 style="margin: 0;">
                     Kino
                 </h1>
@@ -20,7 +20,7 @@
 
     <div>
         <h2> Złóż rezerwację </h2>
-        <form method="post" action="submit_reservation" class="reservation-form">
+        <form method="post" action="submit_reservation" class="reservation-form" id="reservation-form">
             <h3> Zaznacz miejsca </h3>
 
             <div style="background: silver; width: 600px; height: 40px;"> Ekran </div>
@@ -32,6 +32,9 @@
             
             <label for="reservation-firstname"/> Nazwisko </label>
             <input name="lastname" id="reservation-lastname" required/>
+
+            <input name="userId" id="reservation-userid" style="display: none;" readonly required/>
+            <input name="showId" id="reservation-showid" style="display: none;" readonly required/>
             <input type="submit" value="Zarezerwuj">
         </form>
     </div>

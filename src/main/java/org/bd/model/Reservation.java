@@ -25,7 +25,7 @@ public class Reservation {
     Client client;
 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="reservationId")
     private List<ReservationDetail> details = new ArrayList<>();
 

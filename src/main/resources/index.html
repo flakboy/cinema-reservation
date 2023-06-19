@@ -7,8 +7,8 @@
 </head>
 <body>
     <header class="header">
-        <a href="/">
-            <div>
+        <a href="/" style="text-decoration: none">
+            <div class="logo">
                 <h1 style="margin: 0;">
                     Kino
                 </h1>
@@ -93,14 +93,14 @@
         function setComingDaysButtons() {
             let date = new Date();
             let buttons = document.getElementById("coming-days-list").children;
-            for (let i = 1; i < 8; i++) {
+            for (let i = 0; i < 7; i++) {
                 date.setDate((new Date()).getDate() + i);
                 let dateLabel = document.createElement("span");
                 let dayLabel = document.createElement("span");
                 dateLabel.textContent = `${date.getDate()}.${addLeadingZeroes(date.getMonth() + 1, 2)}`
                 dayLabel.textContent = toDayOfWeek(date.getDay());
-                buttons[i].appendChild(dateLabel);
-                buttons[i].appendChild(dayLabel);
+                buttons[i + 1].appendChild(dateLabel);
+                buttons[i + 1].appendChild(dayLabel);
 
 
                 let dateString = date.toISOString().slice(0, 10);

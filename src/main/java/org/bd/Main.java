@@ -105,6 +105,7 @@ public class Main {
                 }
             });
             server.createContext("/select_seats", new GetFileHandler("src/main/resources/select_seats.html", "text/html"));
+            server.createContext("/submit_success", new GetFileHandler("src/main/resources/submit_success.html", "text/html"));
             server.createContext("/reservation.js", new GetFileHandler("src/main/resources/reservation.js", "text/javascript"));
             server.createContext("/submit_reservation", new PostHandler(PostAction.SAVE_RESERVATION, sessionFactory));
             server.createContext("/get_show_data", (HttpExchange exchange) -> {
@@ -170,6 +171,7 @@ public class Main {
             server.start();
         } catch (IOException e) {
             System.out.println("Nie udalo sie uruchomic serwera.");
+            e.printStackTrace();
         }
 
     }
