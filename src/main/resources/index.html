@@ -16,15 +16,40 @@
         </a>
     </header>
 
-
-    <h1> Najbliższe seanse </h1>
-    <ul id="upcoming-shows" class="upcoming__list">
-
-    </ul>
+    <div class="shows">
+        <h1> Najbliższe seanse </h1>
+        <ul id="coming-days-list" class="days__list">
+            <li class="days__elem" id="all-shows">Wszystkie</li>
+            <li class="days__elem"></li>
+            <li class="days__elem"></li>
+            <li class="days__elem"></li>
+            <li class="days__elem"></li>
+            <li class="days__elem"></li>
+            <li class="days__elem"></li>
+            <li class="days__elem"></li>
+        </ul>
+        <ul id="upcoming-shows" class="upcoming__list">
     
+        </ul>
+    </div>
 
     <script>
-        function createShowCard(title, desc, date, time) {
+        let upcomingShows = []; 
+
+        function toDayOfWeek(num) {
+            switch (num) {
+                case 0: return "Niedziela"
+                case 1: return "Poniedziałek"
+                case 2: return "Wtorek"
+                case 3: return "Środa"
+                case 4: return "Czwartek"
+                case 5: return "Piątek"
+                case 6: return "Sobota"
+                default: return null
+            }
+        }
+
+        function createShowCard(showId, title, desc, date, time) {
             let wrapper = document.createElement("li");
             wrapper.classList.add("upcoming__item");
 
@@ -34,6 +59,7 @@
             let descDisplay = document.createElement("p");
 
             let reserveLink = document.createElement("a")
+            reserveLink.href=`/select_seats.html?showId=${showId}`
             let reserveButton = document.createElement("button");
             reserveButton.textContent = "Zarezerwuj miejsca"
             reserveLink.appendChild(reserveButton);
@@ -53,22 +79,77 @@
             document.getElementById("upcoming-shows").appendChild(wrapper);
         }
 
-        let target = document.getElementById("placeholder-list");
-        (async () => {
-            let res = await fetch("/shows?startDate=2023-01-01&endDate=2023-12-30");
-            let data = await res.json();
-            // target.innerText = JSON.stringify(data, null, 2);
-            let shows = data.shows;
+        function addLeadingZeroes(input, targetLength) {
+            let formatted = input.toString();
+            
+            let zeroesCount = targetLength - formatted.length;
+            let i = 0;
+            while (i++ < zeroesCount) {
+                formatted = "0" + formatted;
+            } 
+            return formatted;
+        }
+
+        function setComingDaysButtons() {
+            let date = new Date();
+            let buttons = document.getElementById("coming-days-list").children;
+            for (let i = 1; i < 8; i++) {
+                date.setDate((new Date()).getDate() + i);
+                let dateLabel = document.createElement("span");
+                let dayLabel = document.createElement("span");
+                dateLabel.textContent = `${date.getDate()}.${addLeadingZeroes(date.getMonth() + 1, 2)}`
+                dayLabel.textContent = toDayOfWeek(date.getDay());
+                buttons[i].appendChild(dateLabel);
+                buttons[i].appendChild(dayLabel);
+
+
+                let dateString = date.toISOString().slice(0, 10);
+                buttons[i].addEventListener("click", async () => {
+                    let toDisplay = await getShowsByDateRange(dateString, dateString);
+                    console.log(toDisplay)
+                    renderShows(toDisplay); 
+                });
+                // buttons[i].textContent = toDayOfWeek((today.getDay() + i ) % 7);
+            }
+        }
+
+        function renderShows(shows) {
+            let cardsContainer = document.getElementById("upcoming-shows");
+
+            while (cardsContainer.firstChild) {
+                cardsContainer.removeChild(cardsContainer.lastChild);
+            }
+
             for (let show of shows) {
+                // let dateString = show.date.map(item => addLeadingZeroes(item, 2)).join("-");
                 let [year, month, day] = show.date;
                 let id = show.showId;
                 let title = show.movie.title
                 let desc = show.movie.description
-
-                createShowCard(title, desc, `${day}/${month}/${year}`, show.time);
-                // console.log(id, title, desc)
+                
+                createShowCard(show.showId, title, desc, `${day}/${month}/${year}`, show.time);
             }
+        }
+
+        async function getShowsByDateRange(startDate, endDate) { 
+            let res = await fetch(`/shows?startDate=${startDate}&endDate=${endDate}`);
+            let data = await res.json();
+            return data.shows;
+        }
+
+        (async () => {
+            let today = new Date();
+            // [day, month, year] = [today.getDate(), today.getMonth(), today.getFullYear()]
+
+            setComingDaysButtons();
+
+            upcomingShows = await getShowsByDateRange("2023-01-01", "2023-12-30");
+            renderShows(upcomingShows);
         })()
+
+        document.getElementById("all-shows").addEventListener("click", () => {
+            renderShows(upcomingShows);
+        })
     </script>
 </body>
 </html>

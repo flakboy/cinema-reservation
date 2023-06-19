@@ -3,17 +3,17 @@ package org.bd.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-//import java.sql.Date;
-//import java.sql.Time;
 
+@JsonFilter("showFilter")
 @Entity
 public class Show {
     @Id
@@ -24,11 +24,8 @@ public class Show {
     @Column
     private LocalDate date;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Column
     private LocalTime time;
-
-
 
 
     @JoinColumn(name = "movieId")
@@ -41,6 +38,11 @@ public class Show {
 
     @Column(length = 50)
     private String type;
+
+
+    @OneToMany
+    @JoinColumn(name="showId")
+    private List<Reservation> reservations = new ArrayList<>();
 
     public Show() {}
 
@@ -91,4 +93,8 @@ public class Show {
 
     public String getType() {return this.type;}
     public void setType(String type) {this.type = type;}
+
+    public List<Reservation> getReservations() {
+        return new ArrayList<>(reservations);
+    }
 }

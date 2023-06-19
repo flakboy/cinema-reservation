@@ -1,6 +1,11 @@
 package org.bd.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Reservation {
@@ -8,13 +13,21 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reservationId;
 
+
+    @JsonBackReference
     @JoinColumn(name = "showId")
     @ManyToOne(cascade = CascadeType.PERSIST)
     Show show;
 
+    @JsonIgnore
     @JoinColumn(name = "clientId")
     @ManyToOne(cascade = CascadeType.PERSIST)
     Client client;
+
+
+    @OneToMany
+    @JoinColumn(name="reservationId")
+    private List<ReservationDetail> details = new ArrayList<>();
 
     public Reservation() {}
 
@@ -41,5 +54,13 @@ public class Reservation {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public List<ReservationDetail> getDetails() {
+        return new ArrayList<>(details);
+    }
+
+    public void addDetail(ReservationDetail detail) {
+        details.add(detail);
     }
 }

@@ -1,31 +1,46 @@
-let seats = document.getElementById("seats");
+(async () => {
+    let [_, showId] = window.location.href
+    .split("?")[1]
+    .split("&")
+    .filter(item => item.startsWith("showId="))[0].split("=");
 
-
-for (let i = 0; i < 5; i++) {
-    let row = document.createElement("tr");
-    for (let j = 0; j < 10; j++) {
-        let cell = document.createElement("td");
-        cell.classList.add("seat__cell")
+    let showData = await fetch(`/get_show_data?showId=${showId}`)
+        .then(res => res.json());
         
-        let box = document.createElement("input");
-        box.classList.add("seat__checkbox");
-        box.type = "checkbox";
-        
-        let id = `seat${i}-${j}`;
-        box.id = id;
-        box.name = `${i}-${j}`;
+    let room = showData.data.movieRoom
+    let seatsDisplay = document.getElementById("seats");
 
-        let label = document.createElement("label");
-        label.htmlFor = id;
-        label.classList.add("seat__label");
+    for (let i = 0; i < room.rows; i++) {
+        let row = document.createElement("tr");
+        for (let j = 0; j < room.seats; j++) {
+            let cell = document.createElement("td");
+            cell.classList.add("seat__cell")
+            
+            let box = document.createElement("input");
+            box.classList.add("seat__checkbox");
+            box.type = "checkbox";
+            
+            let id = `${i + 1}-${j + 1}`;
 
-
-        cell.appendChild(box);
-        cell.appendChild(label);
-        row.appendChild(cell);
+            let boxId = `seat${id}`;
+            box.id = boxId;
+            box.name = `seat-${i + 1}x${j + 1}`;
+    
+            let label = document.createElement("label");
+            label.htmlFor = boxId;
+            label.classList.add("seat__label");
+    
+    
+            cell.appendChild(box);
+            cell.appendChild(label);
+            row.appendChild(cell);
+        }
+        seatsDisplay.appendChild(row);
     }
-    seats.appendChild(row);
-}
 
-
-
+    let reservedSeats = [].concat.apply([], showData.data.reservations.map(item => item.details));
+    for (let seat of reservedSeats) {
+        document.getElementById(`seat${seat.row}-${seat.seat}`).disabled = true;
+        document.getElementById(`seat${seat.row}-${seat.seat}`).classList.add("seat__label--disabled");
+    }
+})()

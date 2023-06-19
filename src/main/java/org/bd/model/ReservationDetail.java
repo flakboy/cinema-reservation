@@ -1,9 +1,11 @@
 package org.bd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
 public class ReservationDetail {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reservationDetailId;
@@ -14,6 +16,7 @@ public class ReservationDetail {
     @Column
     private int seat;
 
+    @JsonIgnore
     @JoinColumn(name = "reservationId")
     @ManyToOne(cascade = CascadeType.PERSIST)
     Reservation reservation;
