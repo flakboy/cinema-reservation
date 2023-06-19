@@ -6,7 +6,9 @@
 
     let showData = await fetch(`/get_show_data?showId=${showId}`)
         .then(res => res.json());
-        
+
+    console.log(showData);
+
     let room = showData.data.movieRoom
     let seatsDisplay = document.getElementById("seats");
 
@@ -43,4 +45,9 @@
         document.getElementById(`seat${seat.row}-${seat.seat}`).disabled = true;
         document.getElementById(`seat${seat.row}-${seat.seat}`).classList.add("seat__label--disabled");
     }
+
+    let inputElem = document.getElementById("reservation-userid");
+    inputElem.value = 1;
+    inputElem.style.display = "none";
+    document.getElementById("reservation-showid").value = showId;
 })()
