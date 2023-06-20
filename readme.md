@@ -22,7 +22,7 @@ Aplikacja pozwala na
 * Dodawanie rezerwacji miejsc na seans.
 
 # Schemat bazy danych
-![Schemat](https://raw.githubusercontent.com/flakboy/pbd2-projekt/main/db_scheme.png)
+![Schemat](https://raw.githubusercontent.com/flakboy/pbd2-projekt/main/db_scheme_final.png)
 
 # Endpointy
 ## /shows
